@@ -9,8 +9,9 @@ import {
 import "./style.scss";
 import Logo from "@assets-Project/images/logo.jpg";
 import HeaderContent from "@components-Project/Header/index";
+import Home from "@pages-Project/Home/index";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const SiderConten = () => {
   return<>
@@ -40,6 +41,9 @@ const SiderConten = () => {
       <Header style={{ padding: 0, backgroundColor:'white' }} >
         <HeaderContent/>
       </Header>
+      <Content>
+        <Home/>
+      </Content>
     </Layout>
   </Layout></>;
 };
