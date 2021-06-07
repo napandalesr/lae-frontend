@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAll, post } from "@api-Project/module/task";
 import TaskList from "@containers-Project/TaskList/index";
 import { remove,put } from '../../api/module/task';
-import { _notifications } from '@redux-Project/actions/toolbarAction';
+import { _notificationsSum,_notificationsRest } from '@redux-Project/actions/toolbarAction';
 
 
 const Task = () =>{
@@ -20,9 +20,6 @@ const Task = () =>{
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [editTask, setEditTask] = React.useState('');
   const [idEditTask, setIdEditTask] = React.useState();
-  const [count, setCount] = React.useState(toolbar.notification);
-
-  
 
   const showModal = (name,id) => {
     setIdEditTask(id);
@@ -64,8 +61,7 @@ const Task = () =>{
       response= await post({name:value});
       if ([200, 201, 204].indexOf(response.status) > -1) {
         setData([...data,{name:value,key:response.data.id}]);
-        dispatch(_notifications(count+1));
-        setCount(count+1);
+        dispatch(_notificationsSum(toolbar.notification));
         notification.success({
           message: "Tarea creada correctamente",
           duration: 2,
@@ -103,8 +99,7 @@ const Task = () =>{
               try {
                 const response=await remove(record.key);
                 if ([200, 201, 204].indexOf(response.status) > -1) {
-                  dispatch(_notifications(count-1));
-                  setCount(count-1);
+                  dispatch(_notificationsRest(toolbar.notification));
                   setData(data.filter(item=>item.key!==record.key));
                   notification.success({
                     message: "Tarea eliminada correctamente",
