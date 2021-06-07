@@ -1,11 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Form, Input, Button } from 'antd';
 
-const RegisterForm = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+const RegisterForm = ({onFinish}) => {
+
   return <>
   <Form
       name="basic"
@@ -80,6 +79,14 @@ const RegisterForm = () => {
       </Form.Item>
     </Form>
   </>;
+};
+
+RegisterForm.propTypes = {
+  onFinish: PropTypes.func
+};
+
+RegisterForm.defaultProps = {
+  onFinish: ()=>{}
 };
 
 export default RegisterForm;

@@ -1,10 +1,12 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card,Button } from 'antd';
+import { Card,Button, notification } from 'antd';
 
 import LoginForm from "@containers-Project/LoginForm/index";
 import RegisterForm from "@containers-Project/RegisterForm/index";
+import { post } from "@api-Project/module/registerUser";
+import { setUserSession } from "../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,10 +27,34 @@ const Login = () => {
     key: 'tab1',
     noTitleKey: 'app',
   });
+  const [loading,setLoading]=React.useState(false);
+
+  const save = async(data) => {
+    setLoading(true);
+    try {
+      let response;
+      data.displayName=data.name;
+      response= await post(data);
+      if ([200, 201, 204].indexOf(response.status) > -1) {
+        setUserSession(response);
+        notification.success({
+          message: "Usuario creado correctamente",
+          duration: 2,
+        });
+        setTimeout(() => { 
+          //history.push(INTERNAL_LINKS.AREAS); 
+          setLoading(false);
+        }, 2);
+      }
+    } catch (error) {
+      console.log('Error '+error);
+      setLoading(false);
+    }
+  };
 
   const contentList = {
-    tab1: <LoginForm/>,
-    tab2: <RegisterForm/>,
+    tab1: <LoginForm loading={loading}/>,
+    tab2: <RegisterForm onFinish={save} loading={loading}/>,
   };
 
   const tabList = [
@@ -44,7 +70,6 @@ const Login = () => {
 
 
   const onTabChange = (key, type) => {
-    console.log(key, type);
     setState({ [type]: key });
   };
 

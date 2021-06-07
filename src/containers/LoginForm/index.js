@@ -1,18 +1,20 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-
+import { Spin } from 'antd';
+import PropTypes from "prop-types";
 
 import Logo from "@assets-Project/images/logo.jpg";
 import "./style.scss";
 
 
-const LoginForm = () => {
+const LoginForm = ({loading}) => {
   const onFinish = (values) => {
     console.log('Success:', values);
   };
 
   return <>
   <img src={Logo} />
+  <Spin spinning={loading}>
   <Form
       name="basic"
       onFinish={onFinish}
@@ -42,7 +44,16 @@ const LoginForm = () => {
         </Button>
       </Form.Item>
     </Form>
+    </Spin>
     </>;
+};
+
+LoginForm.propTypes = {
+  loading: PropTypes.bool
+};
+
+LoginForm.defaultProps = {
+  loading:false
 };
 
 export default LoginForm;
