@@ -9,12 +9,13 @@ import {
 import "./style.scss";
 import Logo from "@assets-Project/images/logo.jpg";
 import HeaderContent from "@components-Project/Header/index";
-import Home from "@pages-Project/Home/index";
+import Routes from "@routes-Project/index";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
 
 const SiderConten = () => {
-  return<>
+  return<Router>
   <Layout>
     <Sider
       style={{
@@ -42,10 +43,10 @@ const SiderConten = () => {
         <HeaderContent/>
       </Header>
       <Content>
-        <Home/>
+        <Routes/>
       </Content>
     </Layout>
-  </Layout></>;
+  </Layout></Router>;
 };
 
 export default SiderConten;
