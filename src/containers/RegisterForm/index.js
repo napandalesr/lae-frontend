@@ -55,6 +55,38 @@ const RegisterForm = ({onFinish}) => {
             required: true,
             message: 'El campo es obligatorio!',
           },
+          () => ({
+            validator(_, value) {
+              var numeros="0123456789";
+              for(let i=0; i<value.length; i++){
+                if (numeros.indexOf(value.charAt(i),0)!=-1){
+                  return Promise.resolve();
+                  
+                }
+              }
+              return Promise.reject('Ingrese al menos un números!');
+            },
+          }),
+          () => ({
+            validator(_, value) {
+              var numeros="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+              for(let i=0; i<value.length; i++){
+                if (numeros.indexOf(value.charAt(i),0)!=-1){
+                  return Promise.resolve();
+                  
+                }
+              }
+              return Promise.reject('Ingrese al menos una letra mayúsla!');
+            },
+          }),
+          () => ({
+            validator(_, value) {
+              if (!value || value.length >= 6) {
+                return Promise.resolve();
+              }
+              return Promise.reject('Ingrese mínimo 7 carácteres!');
+            },
+          }),
         ]}
       >
         <Input.Password />
@@ -67,6 +99,14 @@ const RegisterForm = ({onFinish}) => {
             required: true,
             message: 'El campo es obligatorio!',
           },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject('La contraseña no coincide!');
+            },
+          }),
         ]}
       >
         <Input.Password />

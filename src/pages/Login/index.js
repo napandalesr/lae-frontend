@@ -5,7 +5,8 @@ import { Card,Button, notification } from 'antd';
 
 import LoginForm from "@containers-Project/LoginForm/index";
 import RegisterForm from "@containers-Project/RegisterForm/index";
-import { post } from "@api-Project/module/registerUser";
+import { post } from "@api-Project/module/users";
+import { login } from "@api-Project/module/auth";
 import { setUserSession } from "../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +43,28 @@ const Login = () => {
           duration: 2,
         });
         setTimeout(() => { 
-          //history.push(INTERNAL_LINKS.AREAS); 
+          setLoading(false);
+        }, 2);
+      }
+    } catch (error) {
+      console.log('Error '+error);
+      setLoading(false);
+    }
+  };
+
+  const Loguear = async(data) => {
+    setLoading(true);
+    try {
+      let response;
+      response= await login(data);
+      if ([200, 201, 204].indexOf(response.status) > -1) {
+        console.log(response);
+        setUserSession(response);
+        notification.success({
+          message: "Bienvenido",
+          duration: 2,
+        });
+        setTimeout(() => { 
           setLoading(false);
         }, 2);
       }
@@ -53,7 +75,7 @@ const Login = () => {
   };
 
   const contentList = {
-    tab1: <LoginForm loading={loading}/>,
+    tab1: <LoginForm Loguear={Loguear} loading={loading}/>,
     tab2: <RegisterForm onFinish={save} loading={loading}/>,
   };
 
