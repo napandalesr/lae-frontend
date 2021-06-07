@@ -7,26 +7,28 @@ import Logo from "@assets-Project/images/logo.jpg";
 import "./style.scss";
 
 
-const LoginForm = ({loading}) => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+const LoginForm = ({loading, Loguear}) => {
 
   return <>
   <img src={Logo} />
   <Spin spinning={loading}>
   <Form
       name="basic"
-      onFinish={onFinish}
+      onFinish={Loguear}
       style={{marginTop:30}}
     >
       <Form.Item
         label="Usuario"
-        name="username"
-        rules={[{ required: true, message: 'Ingrese su nombre se usuario!' }]}
+        name="email"
         labelCol={{span:9}}
+        rules={[
+          {
+            required: true, 
+            message: 'Ingrese su nombre se usuario!'
+          },
+        ]}
       >
-        <Input />
+        <Input type='email'/>
       </Form.Item>
 
       <Form.Item
@@ -49,11 +51,13 @@ const LoginForm = ({loading}) => {
 };
 
 LoginForm.propTypes = {
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  Loguear: PropTypes.func
 };
 
 LoginForm.defaultProps = {
-  loading:false
+  loading:false,
+  Loguear: ()=>{}
 };
 
 export default LoginForm;

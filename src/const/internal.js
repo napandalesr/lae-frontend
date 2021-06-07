@@ -1,3 +1,5 @@
 export const  ROUTES_INTERNAL={
-  HOME:'/'
+  HOME:'/',
+  USUARIOS:'/usuarios',
+  TASK:'/tareas'
 };
